@@ -1,0 +1,339 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Home Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <style>
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+        body {
+            font-size: 10px;
+            line-height: 1.0!important;
+            overflow-y:hidden;
+
+            
+        }
+
+a {
+  text-decoration:none;
+  transition:.5s ease;
+}
+
+
+
+.tab-group {
+  list-style:none;
+  padding:0;
+  margin:0 0 40px 0;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  li a {
+    display:block;
+    text-decoration:none;
+    padding:15px;
+    background:rgba($gray-light,.25);
+    color:$gray-light;
+    font-size:20px;
+    float:left;
+    width:50%;
+    text-align:center;
+    cursor:pointer;
+    transition:.5s ease;
+    &:hover {
+      background:$main-dark;
+      color:$white;
+    }
+  }
+  .active a {
+    background:$main;
+    color:$white;
+  }
+}
+
+.tab-content > div:last-child {
+  display:none;
+}
+
+        input, textarea {
+            display: block;
+            height: 100%;
+            padding: 5px 10px;
+            background: none;
+            background-image: none;
+            border: 1px solid #a0b3b0;
+            color: white;
+            border-radius: 0;
+            transition: border-color .25s ease, box-shadow .25s ease;
+        }
+        input:focus {
+            outline: 0;
+            border-color: #1ab188;
+        }
+         textarea {
+            border: 2px solid #a0b3b0;
+            resize: vertical;
+        }
+
+.field-wrap {
+  position:relative;
+  margin-bottom:20px;
+}
+
+        .button:hover, .button:focus {
+            background: #13968f;
+        }
+ .button-block {
+  display:block;
+  width:100%;
+}
+
+
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: #1ab188;
+  -webkit-transition: .5s ease;
+          transition: .5s ease;
+}
+a:hover {
+  color: #179b77;
+}
+        footer {
+            background: black;
+            color: white;
+            padding: 15px 0px 5px 45px;
+            width: 107.816%;
+            margin-left: -45px;
+        }
+
+.form {
+  background: rgba(19, 35, 47, 0.9);
+  padding: 40px;
+  max-width: 30%;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+  margin-left:7%;
+}
+
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+.tab-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.tab-group li a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  background: rgba(160, 179, 176, 0.25);
+  color: #a0b3b0;
+  font-size: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: .5s ease;
+          transition: .5s ease;
+}
+.tab-group li a:hover {
+  background: #179b77;
+  color: #ffffff;
+}
+.tab-group .active a {
+  background: #1ab188;
+  color: #ffffff;
+}
+
+.tab-content > div:last-child {
+  display: none;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-weight: 300;
+  margin: 0 0 40px;
+}
+
+
+        #login {
+            margin-top:8%;
+        }
+
+
+input, textarea {
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  background: none;
+  background-image: none;
+  border: 1px solid #a0b3b0;
+  color: #ffffff;
+  border-radius: 0;
+  -webkit-transition: border-color .25s ease, box-shadow .25s ease;
+          transition: border-color .25s ease, box-shadow .25s ease;
+}
+input:focus, textarea:focus {
+  outline: 0;
+  border-color: #1ab188;
+}
+
+textarea {
+  border: 2px solid #a0b3b0;
+  resize: vertical;
+}
+
+.top-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.top-row > div {
+  float: left;
+  width: 48%;
+  margin-right: 4%;
+}
+.top-row > div:last-child {
+  margin: 0;
+}
+
+.button {
+  border: 0;
+  outline: none;
+  border-radius: 0;
+  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: #13968f;
+  color: #ffffff;
+  -webkit-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+  -webkit-appearance: none;
+}
+.button:hover, .button:focus {
+  background: #179b77;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+#signup{
+	margin-top: 5%;
+}
+        .backgroundImage {
+            background: url("../Images/pharmacy2.jpg");
+            background-repeat: no-repeat;
+            font-family: 'Titillium Web', sans-serif;
+            margin-top: 8%;
+            margin-bottom:8%;
+        }
+    </style>
+    <script>
+
+
+$(document).ready(function () {
+    $('.tab a').on('click', function (e) {
+        e.preventDefault();
+        $(this).parent().addClass('active');
+        $(this).parent().siblings().removeClass('active');
+        target = $(this).attr('href');
+        $('.tab-content > div').not(target).hide();
+        $(target).fadeIn(600);
+        $("#btnSignUp").click(function () {
+            $("#signUpForm").submit();
+        })
+    });
+});
+</script>
+</head>
+<body>
+    <div class="backgroundImage">
+        <div class="form">
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="tab active"><a href="#login">Log In</a></li>
+                <li class="tab"><a href="#signup">Sign Up</a></li>
+               
+            </ul>
+
+            <div class="tab-content">
+                <div id="login">
+                    <div class="field-wrap">
+                        <h5 style="color:white">Log In</h5>
+                    </div>
+                    <form action="../../Home/index" method="post">
+
+                        <div class="field-wrap">
+                            <input type="text" name="userName" id="userName" required autocomplete="on" placeholder="UserName" />
+                        </div>
+
+                        <div class="field-wrap">
+                            <input type="password" name="password" id="password" required autocomplete="off" placeholder="Password" />
+                        </div>
+                        <button class="button button-block">Log In</button>
+
+                    </form>
+
+                </div>
+                <div id="signup">
+
+                    <form action="../../Account/SignUp" method="post" id="signUpForm">
+
+                        <div class="top-row">
+                            <div class="field-wrap">
+
+                                <input type="text" required autocomplete="off" placeholder="Name" name="name" />
+                            </div>
+
+                            <div class="field-wrap">
+
+                                <input type="text" required autocomplete="off" placeholder="UserName" name="UserName" />
+                            </div>
+                        </div>
+
+                        <div class="field-wrap">
+
+                            <input type="email" required autocomplete="on" placeholder="Email Address" name="email" />
+                        </div>
+
+                        <div class="field-wrap">
+
+                            <input type="password" required autocomplete="off" placeholder="Password" name="password" />
+                        </div>
+
+                        <button type="submit" class="button button-block" name="btnSignUp" id="btnSignUp">Get Started</button>
+
+                    </form>
+
+                </div>
+            </div><!-- tab-content -->
+             <!-- /form -->
+        </div>
+        </div>
+</body>
+</html>

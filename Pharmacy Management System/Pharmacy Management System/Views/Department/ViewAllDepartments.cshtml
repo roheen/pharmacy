@@ -1,0 +1,211 @@
+﻿@model PharmacyManagementSystem.DepartmentView
+<html>
+<head>
+    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.jqueryui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+
+    <style>
+        table {
+            width: 100% !important;
+        }
+
+        td.highlight {
+            background-color: whitesmoke !important;
+            color: red;
+        }
+
+        tbody {
+            width: 100%;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: white;
+            cursor: default;
+            background-color: #3c8dbc;
+            border: 1px solid #3C8DC3;
+            border-bottom-color: transparent;
+        }
+
+        tr {
+            cursor: pointer;
+        }
+
+        table.dataTable thead th, table.dataTable thead td {
+            padding: 10px 10px;
+        }
+
+            table.dataTable thead th div.DataTables_sort_wrapper span {
+                top: 50%;
+                right: -18px;
+                position: inherit !important;
+                margin-top: 0px !important;
+            }
+
+        .ui-draggable .ui-dialog-titlebar {
+            cursor: move;
+            background-color: #3c8dbc;
+            color: white;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "Post",
+                url: '../../Department/ViewAllDepartmentsAjax',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('#example').DataTable({
+                        destroy: true,
+                        "aaData": JSON.parse(data),
+                        "columns": [{ "data": "departmentID" }, { "data": "departmentName" }],
+                        "columnDefs": [
+                       {
+                           "targets": [2],
+                           "data": null,
+                           "defaultContent": "<p onclick='myFunction()'><span class='glyphicon glyphicon-trash'></span></p>"
+                       }]
+                    });
+                    var table = $('#example').DataTable();
+                    $('#example tbody').on('click', 'td', function () {
+                        var data1 = table.row($(this).parents('tr')).data();
+                        if ($(this).index() == 2) {
+
+                            $("#dialog-confirm").dialog({
+                                resizable: false,
+                                height: "auto",
+                                width: 400,
+                                modal: true,
+                                buttons: {
+                                    "Delete": function () {
+                                        $.ajax({
+                                            type: "Post",
+                                            url: '../../Department/DeleteDepartment',
+                                            data: '{ "departmentId": "' + data1["departmentID"] + '"}',
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function () {
+                                            }
+                                        })
+                                        $("#form2").submit();
+                                        $(this).dialog("close");
+                                    },
+                                    Cancel: function () {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            })
+                            return false;
+                        }
+                     
+                    });
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+
+            DepartmentNamesIntellisecce();
+        
+        });
+        function DepartmentNamesIntellisecce() {
+            var titles = [];
+            $.ajax({
+                url: '../../Home/GetAllDepartmentNames',
+                type: 'Post',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $(data).each(function (index, item) {
+                        titles.push(item);
+                    });
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+            $("#Name").autocomplete({
+                source: titles
+            });
+        }
+    </script>
+</head>
+<body>
+    <br />
+    <div id="dialog-confirm" title="Are you sure you want to delete?" style="display:none;">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:2px 2px 2px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10" id="marginleftclass">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#Medicines" data-toggle="tab">Departments</a></li>
+                    <li><a href="#AddMedicine" data-toggle="tab">Add Departments</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="Medicines">
+                <div class="row">
+                    <br />
+                    <div class="col-xs-5">
+                        
+                        <table id="example" class="display" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th width="18%">ID</th>
+                                    <th width="68%">Name</th>
+                                    <th width="15%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="AddMedicine" class="tab-pane fade">
+                <div class="row">
+                    <br />
+                    <div class="col-xs-5">
+                        <form action="../../Department/AddDepartmentAjax" method="post">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title" style="color: #3c8dbc">Add Department in Inventry</h3>
+                                </div>
+                                <div class="box-body">
+
+                                        <div class="form-group">
+                                            <div>
+                                                <input type="text" required class="form-control pull-right" placeholder="Department Name" id="Name" name="Name">
+                                            </div>
+                                            <!-- /.input group -->
+                                        </div>
+                                          <br />
+                                    <br />                   
+                                    <div class="box-footer">
+                                        <button type="submit" class="btn btn-primary" style="margin-left:90%">ADD</button>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="display:none">
+           
+            <form action="../../Department/ViewAllDepartments" method="post" id="form2">
+                <input type="text" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>

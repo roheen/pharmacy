@@ -1,0 +1,247 @@
+﻿
+@model PharmacyManagementSystem.MedicineView
+@{
+    ViewBag.Title = "AssignMedicinetoDepartment";
+}
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script>
+        $(document).ready(function () {
+            DepartmentNamesIntellisecce();
+            MedicineNamesIntellisecce();
+            $("#EntryDate,#ExpiryDate").datepicker();
+
+        })
+        function DepartmentNamesIntellisecce() {
+            var titles = [];
+            $.ajax({
+                url: '../../Home/GetAllDepartmentNames',
+                type: 'Post',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (data) {
+                    $(data).each(function (index, item) {
+                        titles.push(item);
+                    });
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+
+            $("#departmentName").autocomplete({
+                source: titles
+            });
+        }
+        function MedicineNamesIntellisecce() {
+            var titles = [];
+            $.ajax({
+                url: '../../Home/GetAllMedicineNames',
+                type: 'Post',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (data) {
+                    $(data).each(function (index, item) {
+                        titles.push(item);
+                    });
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+
+            $("#Name").autocomplete({
+                source: titles
+            });
+        }
+    </script>
+</head>
+<body>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10" id="marginleftclass">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#Medicine_Department" data-toggle="tab">Assign to Department</a></li>
+                    <li><a href="#EditMedicine" data-toggle="tab">Edit Medicine</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+
+            <div class="tab-pane fade in active" id="Medicine_Department">
+                <div class="row">
+                    <br />
+                    <div class="col-xs-5">
+                        <form action="../../Home/AddDepartmentAgainstMedicine" method="post">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Assign to Department</h3>
+                                </div>
+                                <div class="box-body">
+                                    <!-- Date -->
+                                    <div class="form-group">
+                                        <label>Medicine Name</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="Name" name="Name" value="@Model.Name" readonly>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Available Quantity</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="Quantity" name="Quantity" value="@Model.AvaiableQuantity" readonly>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Department Name</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="departmentName" name="departmentName">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantity Assigned</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="QuantityAssigned" name="QuantityAssigned">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <div class="form-group" style="display:none">
+                                        <label>Batch Number</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="batchNumber" name="batchNumber" value="@Model.batchNumber">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+
+                                    <!-- /.form group -->
+                                    <!-- Date range -->
+                                    <div class="form-group">
+                                        <label>Entry Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" required class="form-control pull-right" id="EntryDate" name="EntryDate" value="@Model.EntryDate" readonly>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <!-- /.form group -->
+                                    <!-- Date and time range -->
+                                    <div class="form-group">
+                                        <label>Expiry Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input type="text" required class="form-control pull-right" id="ExpiryDate" name="ExpiryDate" value="@Model.ExpiryDate" readonly>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <!-- /.form group -->
+                                    <!-- Date and time range -->
+                                    <!-- /.form group -->
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary" style="margin-left:84%">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="EditMedicine" class="tab-pane fade">
+                <div class="row">
+                    <br />
+                    <div class="col-xs-5">
+                        <form action="../../Home/EditMedicine" method="post">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Edit Medicine</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group" style="display:none">
+                                        
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="medicineID" name="medicineID" value="@Model.medicineID">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <!-- Date -->
+                                    <div class="form-group">
+                                        <label>Medicine Name</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="Name" name="Name" value="@Model.Name">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Purchased Quantity</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="Quantity" name="Quantity" value="@Model.Quantity">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Available Quantity</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="AvaiableQuantity" name="AvaiableQuantity" value="@Model.AvaiableQuantity">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Batch Number</label>
+                                        <div>
+                                            <input type="text" required class="form-control pull-right" id="batchNumber" name="batchNumber" value="@Model.batchNumber">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+
+                                    <!-- /.form group -->
+                                    <!-- Date range -->
+                                    <div class="form-group">
+                                        <label>Entry Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" required class="form-control pull-right" id="EntryDate" name="EntryDate" value="@Model.EntryDate">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <!-- /.form group -->
+                                    <!-- Date and time range -->
+                                    <div class="form-group">
+                                        <label>Expiry Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input type="text" required class="form-control pull-right" id="ExpiryDate" name="ExpiryDate" value="@Model.ExpiryDate">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <!-- /.form group -->
+                                    <!-- Date and time range -->
+                                    <!-- /.form group -->
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary" style="margin-left:84%">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

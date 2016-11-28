@@ -1,0 +1,149 @@
+﻿<html>
+<head>
+    <title></title>
+    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.jqueryui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        table{
+            width:100%!important;
+        }
+        td.highlight {
+            background-color: whitesmoke !important;
+            color: red;
+        }
+        tbody {
+            width: 100%;
+        }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: white;
+            cursor: default;
+            background-color: #3c8dbc;
+            border: 1px solid #3C8DC3;
+            border-bottom-color: transparent;
+        }
+        tr {
+            cursor: pointer;
+        }
+        table.dataTable thead th, table.dataTable thead td {
+            padding: 10px 10px;
+        }
+        table.dataTable thead th div.DataTables_sort_wrapper span {
+                top: 50%;
+                right: -18px;
+                position: inherit !important;
+                margin-top: 0px !important;
+            }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#example").hide();
+            MedicineNamesIntellisecce();
+            $("#FromDate,#ToDate").datepicker();
+        });
+        function GetMedicineReport() {
+            var medicineName = $("#Name").val();
+            $.ajax({
+                type: "Post",
+                url: '../../Report/GetMonthlyMedicineReport',
+                data: '{"medicineName":"' + medicineName + '","FromDate":"' + $("#ToDate").val() + '","ToDate":"' + $("#FromDate").val() + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('#example').DataTable({
+                        "aaData": JSON.parse(data),
+                        "columns": [{ "data": "medicineName" }, { "data": "departmentName" }, { "data": "allocationDate" }, { "data": "quantityAssigned" }, { "data": "batchNumber" }],               
+                    });
+                    $("#example").show();
+                },                        
+                error: function (err) {
+                    alert(err);
+            }
+            })
+        }
+        function MedicineNamesIntellisecce() {
+            var titles = [];
+            $.ajax({
+                url: '../../Home/GetAllMedicineNames',
+                type: 'Post',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $(data).each(function (index, item) {
+                        titles.push(item);
+                    });
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+            $("#Name").autocomplete({
+                source: titles
+            });
+        }
+    </script>
+</head>
+<body>
+    <br />
+    <div class="container">
+        <div>
+            <h4 style="color: #3c8dbc;margin-left:0.9%;margin-bottom:0px;font-size:16px">Detailed Analysis Report </h4>
+        </div>
+        <div class="row">
+            <div class="box-body">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <div>
+                            <input type="text" required class="form-control pull-right" placeholder="Medicine Name" id="Name" name="Name">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+                <!-- <div class="col-xs-3">
+                    <div class="form-group">                       
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" required class="form-control pull-right" placeholder="From" id="FromDate" name="FromDate">
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" required class="form-control pull-right" id="ToDate" name="ToDate" placeholder="To">
+                        </div>                       
+                    </div>
+                </div>-->
+                <div class="col-xs-2">
+                    <button type="submit" class="btn btn-primary" onclick="GetMedicineReport();">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10">
+                <table id="example" class="display" cellspacing="0" >
+                    <thead>
+                        <tr>
+                            <th width="20%">Medicine</th>
+                            <th>Department</th>
+                            <th>AllotmentDate</th>
+                            <th>Quantity Assigned</th>
+                            <th>Batch.NO</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

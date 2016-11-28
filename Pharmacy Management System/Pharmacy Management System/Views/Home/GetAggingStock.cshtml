@@ -1,0 +1,109 @@
+﻿@model PharmacyManagementSystem.MedicineView
+<html>
+<head>
+    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.12/css/dataTables.jqueryui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.jqueryui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <style>
+        table {
+            width: 100% !important;
+        }
+        td.highlight {
+            background-color: whitesmoke !important;
+            color: red;
+        }
+        tbody {
+            width: 100%;
+        }
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: white;
+            cursor: default;
+            background-color: #3c8dbc;
+            border: 1px solid #3C8DC3;
+            border-bottom-color: transparent;
+        }
+        table.dataTable thead th, table.dataTable thead td {
+            padding: 10px 10px;
+        }
+            table.dataTable thead th div.DataTables_sort_wrapper span {
+                top: 50%;
+                right: -18px;
+                position: inherit !important;
+                margin-top: 0px !important;
+            }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "Post",
+                url: '../../Home/GetAggingStockAjax',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('#example').DataTable({
+                        "aaData": JSON.parse(data),
+                        "columns": [{ "data": "medicineID" }, { "data": "Name" }, { "data": "Quantity" }, { "data": "AvaiableQuantity" }, { "data": "EntryDate" }, { "data": "ExpiryDate" }, { "data": "batchNumber" }],
+                        "columnDefs": [
+                        {
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false
+                        }],
+                        "createdRow": function (row, data, index) {
+
+                            if (data["AvaiableQuantity"] < 0.25 * data["Quantity"]) {
+                                $('td', row).addClass('highlight');
+                            }
+                        }
+                    });
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="box box-primary">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="box-header">
+                                <label style="color: #3c8dbc">Agging Stock</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xs-12">
+                            <table id="example" class="display" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th width="20%">Name</th>
+                                        <th>P.Quantity</th>
+                                        <th>A.Quantity</th>
+                                        <th>EntryDate</th>
+                                        <th>ExpiryDate</th>
+                                        <th>Batch NO</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
