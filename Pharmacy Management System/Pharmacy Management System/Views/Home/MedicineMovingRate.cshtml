@@ -76,7 +76,7 @@
            
             var assignedQuantity = [];
             var allocationDate = [];
-            var departmentNames = [];
+            
             
             $.ajax({
                 url: '../../Home/GetMedicineMovingRate',
@@ -89,18 +89,18 @@
                     $(medicineList).each(function (index, item) {
                         assignedQuantity.push(item["quantityAssigned"]);
                         allocationDate.push(item["allocationDate"]);
-                        departmentNames.push(item["departmentName"]);
+                        
                         $('#example').DataTable({
                             "destroy":true,
                             "aaData": JSON.parse(data),
-                            "columns": [{ "data": "medicineName" }, { "data": "departmentName" }, { "data": "allocationDate" }, { "data": "quantityAssigned" }],
+                            "columns": [{ "data": "medicineName" }, { "data": "allocationDate" }, { "data": "quantityAssigned" }],
                         });
                     });
                    
                    
                     var data2 = new google.visualization.DataTable();
-                    data2.addColumn('string', 'Time of Day');
-                    data2.addColumn('number', 'This Week');
+                    data2.addColumn('string', 'Month');
+                    data2.addColumn('number', 'Quantity Consumed');
                     data2.addRows(allocationDate.length);
 
                     for (var i = 0; i < allocationDate.length; i++) {
@@ -203,9 +203,8 @@
                         <thead>
                             <tr>
                                 <th width="20%">Medicine</th>
-                                <th>Department</th>
-                                <th>AllotmentDate</th>
-                                <th>Quantity Assigned</th>
+                                <th>AllotmentMonth</th>
+                                <th>Quantity Consumed</th>
                                
                             </tr>
                         </thead>

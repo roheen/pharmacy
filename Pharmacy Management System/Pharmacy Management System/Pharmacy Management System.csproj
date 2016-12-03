@@ -160,6 +160,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2005,6 +2006,8 @@
     <Content Include="Views\Department\ViewAllDepartments.cshtml" />
     <Content Include="Views\Home\MedicineMovingRate.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\ViewAllUsers.cshtml" />
+    <Content Include="Views\User\ViewAllUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

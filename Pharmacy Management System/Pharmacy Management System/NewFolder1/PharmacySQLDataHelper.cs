@@ -237,6 +237,23 @@ namespace PharmacyManagementSystem
             }
             return dataTable;
         }
+        public DataTable ViewAllUsers()
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                _connection.Open();
+                SqlCommand cmd = new SqlCommand("dbo.GetAllUsers", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dataTable);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Failed to get Users because " + exception.Message);
+            }
+            return dataTable;
+        }
         public DataTable GetMedicineMonthlyReport(string medicineName)
         {
             DataTable dataTable = new DataTable();
@@ -270,6 +287,21 @@ namespace PharmacyManagementSystem
             catch (Exception exception)
             {
                 Console.WriteLine("Failed to get Medicine names because " + exception.Message);
+            }
+        }
+        public void DeleteUser(int userID)
+        {
+            try
+            {
+                _connection.Open();
+                SqlCommand cmd = new SqlCommand("dbo.DeleteUser", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userID", userID);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Failed to get user because " + exception.Message);
             }
         }
         public DataTable GetEsentialMedicines()

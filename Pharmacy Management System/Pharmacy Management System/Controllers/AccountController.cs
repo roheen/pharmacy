@@ -29,7 +29,7 @@ namespace Pharmacy_Management_System.Controllers
             Pharmacy pharmacy = new Pharmacy(userView.UserName);
             pharmacy.SignUP(userView);
             Session["UserName"] = userView.UserName;
-            return RedirectToAction("index", "Home");
+            return RedirectToAction("ViewAllUsers", "User");
         }
        
 

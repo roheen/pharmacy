@@ -153,6 +153,10 @@ namespace Pharmacy_Management_System.Controllers
         {
             return View();
         }
+        public ActionResult ViewAllUsers()
+        {
+            return View();
+        }
       
     }
 }

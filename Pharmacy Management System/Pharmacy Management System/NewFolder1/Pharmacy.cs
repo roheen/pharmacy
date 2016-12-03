@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -118,6 +119,22 @@ namespace PharmacyManagementSystem
             }
             return departmentList;
         }
+        public List<UserDataView> ViewAllUsers()
+        {
+            DataTable dataTable = _sqlHelper.ViewAllUsers();
+            List<UserDataView> userList = new List<UserDataView>();
+            for (int index = 0; index < dataTable.Rows.Count; index++)
+            {
+                UserDataView user = new UserDataView();
+                user.Name = dataTable.Rows[index]["Name"].ToString();
+                user.password = dataTable.Rows[index]["Password"].ToString();
+                user.UserName = dataTable.Rows[index]["UserName"].ToString();
+                user.email = dataTable.Rows[index]["Email"].ToString();
+                user.userID = (int)dataTable.Rows[index]["ID"];
+                userList.Add(user);
+            }
+            return userList;
+        }
         public List<MedicineReportView> GetMedicineMovingRate(string medicineName)
         {
             DataTable dataTable = _sqlHelper.GetMedicineMovingRate(medicineName);
@@ -127,7 +144,7 @@ namespace PharmacyManagementSystem
                 MedicineReportView medicine = new MedicineReportView();
                 //medicine.allocationDate = dataTable.Rows[index]["AllocationDate"].ToString().Split(' ')[0];
                 medicine.allocationDate = dataTable.Rows[index]["AllocationDate"].ToString();
-                medicine.departmentName = dataTable.Rows[index]["DepartmentName"].ToString();
+                medicine.allocationDate = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Convert.ToInt32(medicine.allocationDate));
                 medicine.quantityAssigned = (int)dataTable.Rows[index]["QuantityAssigned"];
                 medicine.medicineName = medicineName;
                 medicineList.Add(medicine);
@@ -137,6 +154,10 @@ namespace PharmacyManagementSystem
         public void DeleteDepartment(string departmentID)
         {
             _sqlHelper.DeleteMedicine(departmentID);
+        }
+        public void DeleteUser(int userID)
+        {
+            _sqlHelper.DeleteUser(userID);
         }
 
         public List<MedicineView> GetEsentialMedicines()
